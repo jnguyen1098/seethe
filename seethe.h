@@ -6,7 +6,7 @@
 
 /* Default level */
 #ifndef LOG_LEVEL
-    #define LOG_LEVEL       WARNING
+    #define LOG_LEVEL   WARNING
 #endif
 
 /* Colour customization */
@@ -23,6 +23,7 @@
 /* Formatting prefs. */
 #define MSG_ENDING      "\n"
 #define TIME_FORMAT     "%T"
+#define BORDER          "-"
 
 /* Enabler flags */
 #define DISPLAY_COLOUR  1
@@ -31,6 +32,10 @@
 #define DISPLAY_FUNC    1
 #define DISPLAY_FILE    1
 #define DISPLAY_LINE    1
+#define DISPLAY_BORDER  1
+#define DISPLAY_MESSAGE 1
+#define DISPLAY_ENDING  1
+#define DISPLAY_RESET   1
 
 /* Log to screen */
 #define emit_log(colour, level, file, func, line, ...) do {                         \
@@ -47,32 +52,33 @@
     printf("%s%s", DISPLAY_TIME ? time_buffer : "", DISPLAY_TIME ? " " : "");       \
                                                                                     \
     /* display the level */                                                         \
-    printf("%s%s", DISPLAY_LEVEL ? level : "", DISPLAY_LEVEL ? " " : "");           \
+    printf("%10s%s", DISPLAY_LEVEL ? level : "", DISPLAY_LEVEL ? " " : "");         \
                                                                                     \
     /* display the function doing the logging */                                    \
     printf("%s%s", DISPLAY_FUNC ? func : "", DISPLAY_FUNC ? " " : "");              \
                                                                                     \
     /* display the file and/or the line number */                                   \
     printf(                                                                         \
-        "%s%s%s%.d%s",                                                              \
-        DISPLAY_FILE || DISPLAY_LINE ? "(" : "",                                    \
+        "%s%s%s%.d%s%s",                                                            \
+        DISPLAY_FUNC && (DISPLAY_FILE || DISPLAY_LINE) ? "(" : "",                  \
         DISPLAY_FILE ? file : "",                                                   \
         DISPLAY_FILE && DISPLAY_LINE ? ":" : "",                                    \
         DISPLAY_LINE ? line : 0,                                                    \
-        DISPLAY_FILE || DISPLAY_LINE ? ") " : ""                                    \
+        DISPLAY_FUNC && (DISPLAY_FILE || DISPLAY_LINE) ? ") " : "",                 \
+        !DISPLAY_FUNC && (DISPLAY_FILE || DISPLAY_LINE) ? " " : ""                  \
     );                                                                              \
                                                                                     \
-    /* display message boundary */                                                  \
-    printf("- ");                                                                   \
+    /* display message border */                                                    \
+    printf("%s%s", DISPLAY_BORDER ? BORDER : "", DISPLAY_BORDER ? " " : "");        \
                                                                                     \
     /* display the callee's message */                                              \
-    printf(__VA_ARGS__);                                                            \
+    if (DISPLAY_MESSAGE) printf(__VA_ARGS__);                                       \
                                                                                     \
     /* add the message ending (usually '\n') */                                     \
-    printf("%s", MSG_ENDING);                                                       \
+    printf("%s", DISPLAY_ENDING ? MSG_ENDING : "");                                 \
                                                                                     \
     /* reset the colour */                                                          \
-    printf("%s", RESET_COLOUR);                                                     \
+    printf("%s", DISPLAY_RESET ? RESET_COLOUR : "");                                \
                                                                                     \
 } while (0)
 
@@ -83,6 +89,7 @@
 #define WARNING     3
 #define ERROR       4
 #define CRITICAL    5
+#define SILENT      6
 
 /* DEBUG LOG */
 #define debug(...) do {                                                             \
@@ -131,9 +138,11 @@
 
 /* CRITICAL LOG */
 #define critical(...) do {                                                          \
-    emit_log(                                                                       \
-        CRITICAL_COLOUR, "[CRITICAL]", __FILE__, __func__, __LINE__, __VA_ARGS__    \
-    );                                                                              \
+    if (LOG_LEVEL <= CRITICAL) {                                                    \
+        emit_log(                                                                   \
+            CRITICAL_COLOUR, "[CRITICAL]", __FILE__, __func__, __LINE__, __VA_ARGS__\
+        );                                                                          \
+    }                                                                               \
 } while (0)
 
 #endif // seethe.h
