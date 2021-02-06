@@ -49,6 +49,14 @@ error("some error");
 
 (If you want to suppress the 'redefinition' error from `gcc`, put `#undef LOG_LEVEL` before your `#define`).
 
+To set the logging level for an entire file, define the `LOG_LEVEL` before `#include`'ing seeth.
+
+```c
+#define LOG_LEVEL   DEBUG
+#include "seethe.h"
+...
+```
+
 ### Globally Changing the Log Level
 
 If you'd like to set a global `LOG_LEVEL` for your entire project, compile the `LOG_LEVEL` as a `gcc` flag:
@@ -84,4 +92,12 @@ I tried making seethe as configurable as possible, but when everything's in a he
 #define TIME_FORMAT     "%T "
 ```
 
-- **Logger format** — this isn't very friendly to work with, but the `emit_log` macro is where the actual log printing takes place. 
+- **Logger format** — this isn't very friendly to work with, but the `emit_log` macro is where the actual log printing takes place.
+
+## TODO?
+
+- Make log level changing more 'friendly'
+
+- Implement `__func__`
+
+- Allow for more configurable log messages
