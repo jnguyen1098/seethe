@@ -1,13 +1,13 @@
 # Seethe
 
 <p align="center">
-    <img alt="demonstration" src="https://i.imgur.com/PLJjHmP.png" width="100%">
+    <img alt="demonstration" src="https://i.imgur.com/PLJjHmP.png">
 </p>
 
 Logging so simple, you only need to include a single header file. seethe supports 6 different log levels (`DEBUG`, `INFO`, `NOTICE`, `WARNING`, `ERROR`, and `CRITICAL`) as well as variadic printing (à la `printf` and friends).
 
 <p align="center">
-    <img alt="demonstration" src="https://s2.gifyu.com/images/hGbWMYo1Qn.gif" width="80%">
+    <img alt="demonstration" src="https://s2.gifyu.com/images/hGbWMYo1Qn.gif">
 </p>
 
 ## Installation and Usage
