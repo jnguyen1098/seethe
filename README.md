@@ -101,3 +101,7 @@ I tried making seethe as configurable as possible, but when everything's in a he
 - Implement `__func__`
 
 - Allow for more configurable log messages
+
+## License
+
+ISC License. Do whatever the fuck you want.
