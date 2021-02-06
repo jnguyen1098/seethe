@@ -7,11 +7,12 @@
     #define LOG_LEVEL       WARNING
 #endif
 
-#define DEBUG_COLOUR    "\x1B[36m"
-#define INFO_COLOUR     "\x1B[32m"
+#define DEBUG_COLOUR    ""
+#define INFO_COLOUR     "\x1B[36m"
+#define NOTICE_COLOUR   "\x1B[32;1m"
 #define WARNING_COLOUR  "\x1B[33m"
-#define ERROR_COLOUR    "\x1B[31;1m"
-#define CRITICAL_COLOUR "\x1B[31m"
+#define ERROR_COLOUR    "\x1B[31m"
+#define CRITICAL_COLOUR "\x1B[41;1m"
 
 #define RESET_COLOUR    "\x1B[0m"
 
@@ -33,9 +34,10 @@
 
 #define DEBUG           0
 #define INFO            1
-#define WARNING         2
-#define ERROR           3
-#define CRITICAL        4
+#define NOTICE          2
+#define WARNING         3
+#define ERROR           4
+#define CRITICAL        5
 
 #define debug(...) do {                                                     \
     if (LOG_LEVEL == DEBUG)   \
@@ -45,6 +47,11 @@
 #define info(...) do {                                                     \
     if (LOG_LEVEL <= INFO)  \
         emit_log(INFO_COLOUR, "INFO", __FILE__, __LINE__, __VA_ARGS__);      \
+} while (0)
+
+#define notice(...) do {                                                     \
+    if (LOG_LEVEL <= NOTICE)  \
+        emit_log(NOTICE_COLOUR, "NOTICE", __FILE__, __LINE__, __VA_ARGS__);      \
 } while (0)
 
 #define warning(...) do {                                                     \

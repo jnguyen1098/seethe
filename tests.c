@@ -23,6 +23,7 @@ int main(void)
     // Smoke testing
     debug("debug log");
     info("informational log");
+    notice("notice log");
     warning("warning log");
     error("error log");
     critical("critical log");
@@ -44,9 +45,10 @@ int main(void)
     // Self-diagnostic indicators
     debug("your logging level is DEBUG");
     info("your logging level is DEBUG or INFO");
-    warning("your logging level is WARNING, INFO or DEBUG");
-    error("your logging level is ERROR,  WARNING, INFO or DEBUG");
-    critical("your logging level is CRITICAL, ERROR, WARNING, INFO or DEBUG");
+    notice("your logging level is DEBUG, INFO, or NOTICE");
+    warning("your logging level is WARNING, INFO, NOTICE or DEBUG");
+    error("your logging level is ERROR,  WARNING, INFO, NOTICE or DEBUG");
+    critical("your logging level is CRITICAL, ERROR, WARNING, INFO, NOTICE or DEBUG");
     puts("");
 
     return 0;
