@@ -1,11 +1,7 @@
+//do multi file C project testing...
+
 #ifndef SEETHE_H
 #define SEETHE_H
-
-#define DEBUG           0
-#define INFO            1
-#define WARNING         2
-#define ERROR           3
-#define CRITICAL        4
 
 #ifndef LOG_LEVEL
     #define LOG_LEVEL       WARNING
@@ -20,6 +16,7 @@
 #define RESET_COLOUR    "\x1B[0m"
 
 #define MSG_ENDING      "\n"
+#define TIME_FORMAT     "%T "
 
 #include <stdio.h>
 #include <time.h>
@@ -28,11 +25,17 @@
     time_t raw_time;    \
     time(&raw_time);    \
     char time_buffer[80];   \
-    strftime(time_buffer, 80, "%T", localtime(&raw_time)); \
-    printf("%s%s [%s] %s:%d - ", colour, time_buffer, level, file, line);     \
+    strftime(time_buffer, 80, TIME_FORMAT, localtime(&raw_time)); \
+    printf("%s%s[%s] %s:%d - ", colour, time_buffer, level, file, line);     \
     printf(__VA_ARGS__);\
     printf("%s%s", RESET_COLOUR, MSG_ENDING);\
 } while (0)
+
+#define DEBUG           0
+#define INFO            1
+#define WARNING         2
+#define ERROR           3
+#define CRITICAL        4
 
 #define debug(...) do {                                                     \
     if (LOG_LEVEL == DEBUG)   \
