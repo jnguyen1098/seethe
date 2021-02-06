@@ -34,6 +34,7 @@
 
 /* Log to screen */
 #define emit_log(colour, level, file, func, line, ...) do {                         \
+                                                                                    \
     /* notate the time */                                                           \
     time_t raw_time = time(NULL);                                                   \
     char time_buffer[80];                                                           \
@@ -72,6 +73,7 @@
                                                                                     \
     /* reset the colour */                                                          \
     printf("%s", RESET_COLOUR);                                                     \
+                                                                                    \
 } while (0)
 
 /* Level enum */
