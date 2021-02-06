@@ -12,7 +12,7 @@ Logging so simple, you only need to include a single header file. seethe support
 
 ## Installation and Usage
 
-Just `#include "seethe.h"` in the file you're using and use any of the 6 macros (look at `example.c` for inspiration). It's that simple.
+Just `#include "seethe.h"` in the file you're using and use any of the 6 macros. It's that simple. Look at the below sample code or `example.c` for more boilerplate.
 
 ```c
 #include "seethe.h"
