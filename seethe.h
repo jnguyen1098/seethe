@@ -67,7 +67,7 @@
                                                                                     \
     /* display the file and/or the line number */                                   \
     printf(                                                                         \
-        "%s%s%s%.d%s%s",                                                            \
+        "%s%s%s%-4.d%s%s",                                                          \
         DISPLAY_FUNC && (DISPLAY_FILE || DISPLAY_LINE) ? "(" : "",                  \
         DISPLAY_FILE ? file : "",                                                   \
         DISPLAY_FILE && DISPLAY_LINE ? ":" : "",                                    \
