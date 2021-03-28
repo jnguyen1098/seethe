@@ -21,24 +21,32 @@
 #define RESET_COLOUR    "\x1B[0m"
 
 /* Formatting prefs. */
-#define MSG_ENDING      "\n"
+#define MSG_ENDING      ""
 #define TIME_FORMAT     "%T"
 #define BORDER          "-"
 
 /* Enabler flags */
 #define DISPLAY_COLOUR  1
-#define DISPLAY_TIME    1
+#define DISPLAY_TIME    0
 #define DISPLAY_LEVEL   1
-#define DISPLAY_FUNC    1
-#define DISPLAY_FILE    1
+#define DISPLAY_FUNC    0
+#define DISPLAY_FILE    0
 #define DISPLAY_LINE    1
-#define DISPLAY_BORDER  1
+#define DISPLAY_BORDER  0
 #define DISPLAY_MESSAGE 1
 #define DISPLAY_ENDING  1
 #define DISPLAY_RESET   1
 
+/* Indent printer */
+#define INDENT(x, tab, symb)                    \
+    do {                                        \
+        for (int i = 0; i < (x) * (tab); i++) { \
+            putchar(symb);                      \
+        }                                       \
+    } while (0)
+
 /* Log to screen */
-#define emit_log(colour, level, file, func, line, ...) do {                         \
+#define emit_log(colour, level, file, func, line, indent, ...) do {                 \
                                                                                     \
     /* notate the time */                                                           \
     time_t raw_time = time(NULL);                                                   \
@@ -71,6 +79,9 @@
     /* display message border */                                                    \
     printf("%s%s", DISPLAY_BORDER ? BORDER : "", DISPLAY_BORDER ? " " : "");        \
                                                                                     \
+    /* indent the message based on level */                                         \
+    INDENT(indent, 2, ' ');                                                         \
+                                                                                    \
     /* display the callee's message */                                              \
     if (DISPLAY_MESSAGE) printf(__VA_ARGS__);                                       \
                                                                                     \
@@ -92,57 +103,99 @@
 #define SILENT      6
 
 /* DEBUG LOG */
-#define debug(...) do {                                                             \
-    if (LOG_LEVEL == DEBUG) {                                                       \
-        emit_log(                                                                   \
-            DEBUG_COLOUR, "[DEBUG]", __FILE__, __func__, __LINE__, __VA_ARGS__      \
-        );                                                                          \
-    }                                                                               \
-} while (0)
+#define debug(level, ...)            \
+    do {                             \
+        if (LOG_LEVEL <= DEBUG) {    \
+            emit_log(                \
+                DEBUG_COLOUR,        \
+                "[DEUBG]",           \
+                __FILE__,            \
+                __func__,            \
+                __LINE__,            \
+                level,               \
+                __VA_ARGS__          \
+            );                       \
+        }                            \
+    } while (0)
 
 /* INFO LOG */
-#define info(...) do {                                                              \
-    if (LOG_LEVEL <= INFO) {                                                        \
-        emit_log(                                                                   \
-            INFO_COLOUR, "[INFO]", __FILE__, __func__, __LINE__, __VA_ARGS__        \
-        );                                                                          \
-    }                                                                               \
-} while (0)
+#define info(level, ...)             \
+    do {                             \
+        if (LOG_LEVEL <= INFO) {     \
+            emit_log(                \
+                INFO_COLOUR,         \
+                "[INFO]",            \
+                __FILE__,            \
+                __func__,            \
+                __LINE__,            \
+                level,               \
+                __VA_ARGS__          \
+            );                       \
+        }                            \
+    } while (0)
 
 /* NOTICE LOG */
-#define notice(...) do {                                                            \
-    if (LOG_LEVEL <= NOTICE) {                                                      \
-        emit_log(                                                                   \
-            NOTICE_COLOUR, "[NOTICE]", __FILE__, __func__, __LINE__, __VA_ARGS__    \
-        );                                                                          \
-    }                                                                               \
-} while (0)
+#define notice(level, ...)           \
+    do {                             \
+        if (LOG_LEVEL <= NOTICE) {   \
+            emit_log(                \
+                NOTICE_COLOUR,       \
+                "[NOTICE]",          \
+                __FILE__,            \
+                __func__,            \
+                __LINE__,            \
+                level,               \
+                __VA_ARGS__          \
+            );                       \
+        }                            \
+    } while (0)
 
 /* WARNING LOG */
-#define warning(...) do {                                                           \
-    if (LOG_LEVEL <= WARNING) {                                                     \
-        emit_log(                                                                   \
-            WARNING_COLOUR, "[WARNING]", __FILE__, __func__, __LINE__, __VA_ARGS__  \
-        );                                                                          \
-    }                                                                               \
-} while (0)
+#define warning(level, ...)          \
+    do {                             \
+        if (LOG_LEVEL <= WARNING) {  \
+            emit_log(                \
+                WARNING_COLOUR,      \
+                "[WARNING]",         \
+                __FILE__,            \
+                __func__,            \
+                __LINE__,            \
+                level,               \
+                __VA_ARGS__          \
+            );                       \
+        }                            \
+    } while (0)
 
 /* ERROR LOG */
-#define error(...) do {                                                             \
-    if (LOG_LEVEL <= ERROR) {                                                       \
-        emit_log(                                                                   \
-            ERROR_COLOUR, "[ERROR]", __FILE__, __func__, __LINE__, __VA_ARGS__      \
-        );                                                                          \
-    }                                                                               \
-} while (0)
+#define error(level, ...)            \
+    do {                             \
+        if (LOG_LEVEL <= ERROR) {    \
+            emit_log(                \
+                ERROR_COLOUR,        \
+                "[ERROR]",           \
+                __FILE__,            \
+                __func__,            \
+                __LINE__,            \
+                level,               \
+                __VA_ARGS__          \
+            );                       \
+        }                            \
+    } while (0)
 
 /* CRITICAL LOG */
-#define critical(...) do {                                                          \
-    if (LOG_LEVEL <= CRITICAL) {                                                    \
-        emit_log(                                                                   \
-            CRITICAL_COLOUR, "[CRITICAL]", __FILE__, __func__, __LINE__, __VA_ARGS__\
-        );                                                                          \
-    }                                                                               \
-} while (0)
+#define critical(level, ...)         \
+    do {                             \
+        if (LOG_LEVEL <= CRITICAL) { \
+            emit_log(                \
+                CRITICAL_COLOUR,     \
+                "[CRITICAL]",        \
+                __FILE__,            \
+                __func__,            \
+                __LINE__,            \
+                level,               \
+                __VA_ARGS__          \
+            );                       \
+        }                            \
+    } while (0)
 
 #endif // seethe.h
