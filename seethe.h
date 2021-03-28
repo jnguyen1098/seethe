@@ -108,7 +108,7 @@
         if (LOG_LEVEL <= DEBUG) {    \
             emit_log(                \
                 DEBUG_COLOUR,        \
-                "[DEUBG]",           \
+                "[DEBUG]",           \
                 __FILE__,            \
                 __func__,            \
                 __LINE__,            \
