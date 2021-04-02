@@ -1,8 +1,6 @@
-# Seethe
+![](https://i.imgur.com/3u3YAsz.png)
 
-<p align="center">
-    <img alt="demonstration" src="https://i.imgur.com/3u3YAsz.png">
-</p>
+# Seethe
 
 Logging so simple, you only need to include a single header file. seethe supports 6 different log levels (`DEBUG`, `INFO`, `NOTICE`, `WARNING`, `ERROR`, and `CRITICAL`), a `SILENT` mode as well as `printf`-style variadic printing.
 
