@@ -51,7 +51,7 @@
     /* notate the time */                                                           \
     time_t raw_time = time(NULL);                                                   \
     char time_buffer[80];                                                           \
-    strftime(time_buffer, 80, TIME_FORMAT, localtime(&raw_time));                   \
+    (void)strftime(time_buffer, 80, TIME_FORMAT, localtime(&raw_time));             \
                                                                                     \
     /* enable colour */                                                             \
     printf("%s", DISPLAY_COLOUR ? colour : "");                                     \
@@ -60,7 +60,10 @@
     printf("%s%s", DISPLAY_TIME ? time_buffer : "", DISPLAY_TIME ? " " : "");       \
                                                                                     \
     /* display the level */                                                         \
-    printf("%10s%s", DISPLAY_LEVEL ? level : "", DISPLAY_LEVEL ? " " : "");         \
+    printf(                                                                         \
+        DISPLAY_LEVEL ? "%10s%s" : "%s%s",                                          \
+        DISPLAY_LEVEL ? level : "", DISPLAY_LEVEL ? " " : ""                        \
+    );                                                                              \
                                                                                     \
     /* display the function doing the logging */                                    \
     printf("%s%s", DISPLAY_FUNC ? func : "", DISPLAY_FUNC ? " " : "");              \
@@ -199,3 +202,4 @@
     } while (0)
 
 #endif // seethe.h
+
